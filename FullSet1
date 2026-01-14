@@ -1,0 +1,636 @@
+   //          ,      ,
+   //         /(.-""-.)\
+   //     |\  \/      \/  /|
+   //     | \ / =.  .= \ / |
+   //     \( \   o\/o   / )/
+   //      \_, '-/  \-' ,_/
+   //        /   \__/   \
+   //        \ \__/\__/ /
+   //      ___\ \|--|/ /___
+   //    /`    \      /    `\
+   //   /       '._.__.'        \
+   //  /    .-""-.        .-""-.   \
+   // |    /  _ _ \      /  _ _ \    |
+   // |   |  (.) (.)    |  (.) (.)   |
+   // |    \   __/      \   __/     |
+   //  \     '-.__.-'      '-.__.-' /
+   //   '.         .----.           .'
+   //     '-._     |    |       _.-'
+   //           '-._|____|_.-'
+   //               /____\
+   //              /_/  \_\
+   //             /_/    \_\
+   //            /_/      \_\
+   //           /_/        \_\
+   //          /_/          \_\
+
+
+// setcps(79/60)
+
+// // ======================
+// // SAMPLES
+// // ======================
+
+// samples({
+//   gtr: {
+//     g3: 'https://cdn.freesound.org/previews/705/705412_11110011-lq.mp3'
+//   }
+// })
+
+// // ======================
+// // GUITAR — DUNGEON DRONE
+// // ======================
+
+// gtr:
+// "bb1@16 eb2@12 [bb1 eb2]@20 c2@32"
+//   .note()
+//   .s('gtr')
+//   .begin(.04).end(.45)
+//   .lpf(900)
+//   .room(3)
+//   .gain(.6)
+//   .pianoroll({
+//     height: 180,
+//     pitchRange: [24, 60]
+//   })
+
+// // ======================
+// // VOX — CHORAL FOG
+// // ======================
+
+// vox:
+// "d3@24 c3@20 bb2@28 f3@32"
+//   .note()
+//   .s('gm_oboe')
+//   .lpf(700)
+//   .room(4)
+//   .delay(.45)
+//   .gain(.8)
+//   .pianoroll({
+//     height: 140,
+//     pitchRange: [36, 72],
+//     opacity: 0.7
+//   })
+
+// // ======================
+// // FAF — SUB BOTTOM
+// // ======================
+
+// faf:
+// "d2@32 c2@28 bb1@36"
+//   .note()
+//   .s('triangle')
+//   .lpf(400)
+//   .room(3)
+//   .gain(.15)
+//   .pianoroll({
+//     height: 90,
+//     pitchRange: [24, 48],
+//     opacity: 0.5
+//   })
+
+
+
+ //                /\ 
+ //               /**\ 
+ //              /****\ 
+ //             /******\ 
+ //            /********\ 
+ //           /**********\ 
+ //          /************\ 
+ //         /**************\ 
+ //        /****************\ 
+ //       |******************|
+ //       |******************|
+ //            |        |
+ //            |  () () |
+ //            |    ^   |
+ //            |   ___  |
+ //            |        |
+ //          __|________|__
+ //       .-"________________"-.
+ //    .-'        |        '-.
+ //  .-'          |             '-.
+ // |             |                 |
+ // |             |                 |
+ //  '.            |              .'
+ //     '-._        |        _.-'
+ //            '-----+-----'
+ //                  |
+ //                  |
+ //                  |
+ //                 / \
+ //                /   \
+ //               /_____\
+
+
+
+// setcps(79/60)
+
+// // --- SAMPLES ---
+// samples({
+//   'gtr': {
+//     'g3': 'https://cdn.freesound.org/previews/705/705412_11110011-lq.mp3'
+//   }
+// })
+
+// const split = register('split', (deflt, callback, pat) =>
+//   callback(deflt.map((d,i)=>
+//     pat.withValue((v)=>{
+//       const isobj = v.value !== undefined
+//       const value = isobj ? v.value : v
+//       const result = Array.isArray(value)
+//         ? (i < value.length ? value[i] : d)
+//         : (i == 0 ? value : d)
+//       return (i == 0 && isobj) ? {...v,value:result} : result
+//     })
+//   ))
+// )
+
+// // ======================
+// // GUITAR → DUNGEON DRONE
+// // ======================
+
+// gtr:
+// "<~ 0:.4@8 1:.3@16 2@6 3@10 ~@12>"
+// .split([0,1], y =>
+//   y[0].pickRestart([
+//     "<bb1@8 eb2@6>/2",
+//     "<[bb1 eb2]@10 [c#2 f#2]@8 [e2 d2]@12>",
+//     "<a2@12 g2@8 f2@10>",
+//     "<a2 g2 f2 c2@16>"
+//   ])
+//   .s('gtr')
+//   .begin(.04).end(.45)
+//   .note()
+//   .gain(.6)
+//   .lpf(900)
+//   .room(3)
+//   .delay(.35)
+//   .velocity(y[1])
+// )
+// .superimpose(x =>
+//   x.late(4)
+//    .gain(.35)
+//    .pan("<-.4 .4>/8")
+//    .room(5)
+//    ._pitchwheel()
+// )
+
+// // // ======================
+// // // VOX → CHORAL FOG
+// // // ======================
+
+// vox:
+// "<~@8 0@16 ~@12>"
+// .split([0,1], y =>
+//   y[0].pickRestart([
+//     `<~ d3@12 c3@10 bb2@14 f3@16 ~@8>*2`,
+//     `<~ e3@12 d3@10 b2@14 a2@16 ~@8>*2`,
+//     `<~ c3@18 b2@16 a2@14 g2@12 ~@10>*2`
+//   ])
+//   .split([0,.7,0], x => note(x[0]).clip(x[1]).penv(x[2]))
+//   .s('gm_oboe')
+//   .lpf(700)
+//   .room(4)
+//   .delay(.45)
+//   .gain(.8)
+//   .velocity(y[1])
+//    .color('red')._scope()
+// )
+// .superimpose(x =>
+//   x.late(6)
+//    .gain(.4)
+//    .pan("<-.6 .6>/12")
+//    .room(5)
+//    .color('cyan')._scope()
+// )
+
+// // // ======================
+// // // FAF → SUBHARMONIC BED
+// // // ======================
+
+// faf:
+// "<~@64 0@32>"
+// .pickRestart([
+//   `<~ d2@24 c2@20 bb1@28 ~@16>*2`.pan(.2),
+//   `<~ f2@24 eb2@20 d2@28 ~@16>*2`.pan(.8)
+// ])
+// .split([0,.8,0], x => note(x[0]).clip(x[1]).penv(x[2]))
+// .s('triangle')
+// .lpf(400)
+// .room(3)
+// .gain(.15)
+
+// // ======================
+// // PERCUSSION → DISTANT PULSE
+// // ======================
+
+// $:
+// s("<bd@12 ~ ~ ~ ~>")
+// .bank("RolandMT32")
+// .lpf(300)
+// .gain(1)
+// .room(2)
+
+// $:
+// s("<~ rim@24 ~>")
+// .bank("RolandMT32")
+// .lpf(1200)
+// .gain(.08)
+// .room(3)
+
+
+
+
+// *   .     *      .  *    .     *   .      *  .   *      .
+//     *     .   *       .    *   .    *      .    *    .   *
+// *      .      *    .      *      .      *    .      *      .
+//    .    *       .    *      .       *     .     *       .   *
+// *     .       *     .      *      .      *       .      *    .
+//      *    .       *    .       *     .     *       .      *  .
+// *      .      *       .      *     .       *      .      *    .
+//     .     *       .     *      .      *      .     *       .   *
+// *       .       *       .      *       .       *       .       *
+//      *       .      *       .      *       .      *       .     *
+// *      .       *       .      *       .       *       .       *  .
+//    .       *       .       *       .       *       .       *     .
+// *       .       *       .       *       .       *       .       * .
+//      *       .       *       .       *       .       *       .    *
+// *       .       *       .       *       .       *       .       *  .
+//     .       *       .       *       .       *       .       *      .
+
+
+
+// setcps(30/60) // very slow, evolving dungeon synth timing
+
+// // ----------------------
+// // Low drone / foundation
+// // ----------------------
+// $:"<c1:16 f1:16 g1:16>"
+//   .s('triangle')
+//   .lpf(200)
+//   .gain(1)
+//   .room(3)
+//   .pianoroll({height:60,pitchRange:[24,36]})
+//   .color('green')._scope()
+
+// // ----------------------
+// // Supersaw pad / mystical layer
+// // ----------------------
+// $:"<[-3,0] [-4,0] [-2,0]>/8".layer(
+//   x => x.sub(7)
+//         .struct("<x x x x>")      // safe way to repeat notes
+//         .n()
+//         .s('supersaw')
+//         .clip(1)
+//         .lpf("<300>/12")
+//         .lpa(0)
+//         .lpe("<2 2.5 3 3!3>/12")
+//         .lpd(0.15),
+//   x => x.add(7)
+//         .s('triangle')
+//         .gain("<0 .1 .15 .2!3>/12")
+//         .adsr([0.5,0,1,0.5])
+//         .hpf(500)
+// )
+// .pianoroll({height:90,pitchRange:[36,60],opacity:0.6})
+// .color('red')._scope()
+
+// // ----------------------
+// // Sparse melodic twinkles
+// // ----------------------
+// $:"<[0 2 5 0 3 -1 2 3 -1 -2 3 2]>"
+//   .s('sine')
+//   .gain("1")
+//   .adsr([0.1,0.2,0.2,0.5])
+//   .room(2)
+//   .pianoroll({height:100,pitchRange:[48,72],opacity:0.5})
+//   .color('cyan')._scope()
+
+// // ----------------------
+// // Random mystical arpeggios / echoes
+// // ----------------------
+// // Procedural replacement (parse-safe)
+// arp:
+// n(irand(7).add(6))
+//   .struct("<x x ~>")       // repeat note twice, then rest
+//   .s('square')
+//   .hpf(800)
+//   .lpf(2000)
+//   .gain(1.2)
+//   .adsr([0.01,0.2,0.1,0.4])
+//   .delay(0.5)
+//   .dfb(0.4)
+//   .pianoroll({height:120,pitchRange:[48,72],opacity:0.5})
+
+// // ----------------------
+// // Ritual drums
+// // ----------------------
+// drums:
+// s("[bd ~ <bd ~>] sd")
+//   .bank("linndrum")
+//   .lpf("<600 800 1000 1200!3>/12")
+//   .gain(0.6)
+//   .room(2)
+
+// // Optional hi-hat / rim clicks
+// hh:
+// s("rd*3")
+//   .hpf(8000)
+//   .gain(0.1)
+//   .room(1.5)
+
+// // ----------------------
+// // Optional star sparkle (high twinkles)
+// stars:
+// "<[c5 e5 g5 c6]>"
+//   .s('triangle')
+//   .gain(0.05)
+//   .adsr([0.1,0.3,0.05,0.5])
+//   .room(3)
+//   .pianoroll({height:140,pitchRange:[72,84],opacity:0.3})
+
+// // ----------------------
+// // Global processing
+// all(x => x.room(0.8).scale("f3:minor"))
+
+
+
+   //     _.--""--._
+   //   .'          '.
+   //  /   O      O   \
+   // :           `    :
+   // |                |  
+   // :    .------.    :
+   //  \  '        '  /
+   //   '.          .'
+   //     '-......-'
+
+   //      ||  ||
+   //      ||  ||
+   //      ||  ||
+   //      ||  ||
+   //     /  \/  \
+   //    /        \
+   //   |          |
+   //   '----------'
+
+
+
+
+
+
+
+// //Cover of Mouth Breather by The Jesus Lizard
+
+// // ======================
+// // Dungeon Synth - Original Pattern
+// // ======================
+
+// setcps(30/60) // slow dungeon synth tempo
+
+// // ----------------------
+// // Low drone foundation
+// $:"<c1:16 f1:16 g1:16>"
+//   .s('triangle')          // dark, low drone
+//   .lpf(400)               // soft low-pass
+//   .gain(0.5)              // audible
+//   .room(2.5)              // long reverb
+//   .pianoroll({height:60,pitchRange:[24,36]})
+
+// // ----------------------
+// // Pad layer (recognizable chord pattern)
+// $:"<[-3,0] [-4,0] [-2,0]>/8"
+//   .layer(
+//     x => x.sub(7)
+//           .struct("<x x x x>")  
+//           .n()
+//           .s('fm')               // dark FM pad
+//           .clip(1)
+//           .lpf(600)
+//           .lpe("<2 2.5 3 3!3>/12")  
+//           .lpd(0.2),
+//     x => x.add(7)
+//           .s('organ')            // spooky organ layer
+//           .gain(0.3)
+//           .adsr([0.5,0,1,0.5])
+//           .hpf(300)
+          
+//   )
+  
+
+// // ----------------------
+// // Main melody (recognizable as song)
+// melody: "<[0 2 5 0 3 -1 2 3]>".s('sine')
+//   .gain(0.4)
+//   .adsr([0.1,0.2,0.2,0.5])
+//   .room(1.5)
+//   pads.color("<#00bfff #800080 #FFD700>!16")
+//   .pianoroll({height:100,pitchRange:[48,72],opacity:0.7})
+
+// // ----------------------
+// // Minimal drums (simple rhythm)
+// drums: s("[bd ~ ~]")          // slow, sparse kick
+//   .bank("linndrum")
+//   .lpf(700)
+//   .gain(0.5)
+//   .room(1)
+
+// hh: s("rd ~")                 // sparse rim/high
+//   .hpf(7000)
+//   .gain(0.1)
+//   .room(1)
+
+// // ----------------------
+// // Global dungeon synth processing
+// all(x => x.room(0.8).scale("f3:minor"))
+
+
+
+//               __====-_  _-====___
+//         _--^^^#####//      \\#####^^^--_
+//      _-^##########// (    ) \\##########^-_
+//     -############//  |\^^/|  \\############-
+//   _/############//   (@::@)   \\############\_
+//  /#############((     \\//     ))#############\
+// -###############\\    (oo)    //###############-
+// -#################\\  / "" \  //#################-
+// -###################\\/  (_)  \//###################-
+// _#/|##########/\######(   "/"   )######/\##########|\#_
+//  |/ |#/\#/\#/\/  \#/\##\  ! !  /##/\#/  \/\#/\#/\#| \|
+//  '  |/  V  V '   V  \\#\  ! !  /#/  V   '  V  V  \|  '
+//     '   '  '      '   /#|  ! !  |#\   '      '  '   '
+//                      (##\      /##)
+//                      \###\    /###/
+//                       \####\/####/
+
+
+
+
+
+
+
+// setcps(90/60)  // slow, moody tempo
+
+// //----------------------
+// // Deep evolving drone (replaces p1 percussion stack)
+// drone: stack(n("[0 7 4 2]").scale("e2:minor")
+//   .s('triangle')
+//   .gain("<0.6 0.8 0.5 0.7!16>")  // fade in/out dynamically
+//   .lpf("<300 500 800>")           // soft low-pass
+//   .lpe("<2 3 4>")                 // slowly evolving amplitude
+//   .decay("<1.5 2 1.8>")           // long sustained notes
+//   .room(4)
+//   .color("<#00bfff #800080 #FFD700>!16")
+//   .pianoroll({height:100, pitchRange:[48,72], opacity:0.7})
+  
+// )
+
+// // ----------------------
+// // Atmospheric pads (replaces p2 stack)
+// pads: stack(n("[0 4 7 2]").scale("e3:minor")
+//   .s('fm')
+//   .gain("<0.4 0.6 0.3 0.5!16>")
+//   .adsr([1,0.5,2,1])
+//   .lpf("<1000 1200 1500>")
+//   .hpf(200)
+//   .delay(0.6)
+//   .dfb(0.2)
+//   .room(3)
+// )
+
+// // ----------------------
+// // Arpeggiated lead / melodic texture (replaces p3)
+// lead: n("[0 2 4 3 2 0]").scale("e4:minor")
+//   .s('supersaw')
+//   .gain("<0.4 0.5 0.3 0.6!16>")
+//   .adsr([0.2,0.1,0.4,0.8])
+//   .lpf(1800)
+//   .hpf(250)
+//   .delay(0.4)
+//   .dfb(0.25)
+//   color("<#F8F8FF #228B22 #FFD700>!16")
+//   .pianoroll({height:100,pitchRange:[48,72],opacity:0.7})
+
+// // ----------------------
+// // Textural harmonic layer (replaces p4)
+// harmonics: n("[0,9,2,5]! | [~ [4,3,1,12]] | [[0,9,2,5] [7,2,0,4]]")
+//   .scale("e4:minor")
+//   .s('triangle')
+//   .gain("<0.2 0.3 0.15 0.25!16>")
+//   .decay(perlin.range(1,2).slow(4))
+//   .release(perlin.range(2,5).slow(3))
+//   .lpf(tri.range(0,5000).fast(10))
+//   .lpe(20)
+//   .room(3)
+
+// // ----------------------
+// // Minimal ambient pulses (optional)
+// pulses: s("[bd ~ ~]")
+//   .gain(0.3)
+//   .room(2)
+
+// hh: s("rd ~")
+//   .gain(0.02)
+//   .hpf(6000)
+//   .room(2)
+
+// // ----------------------
+// // Global dungeon synth feel - activate to get SLOWWWWWWW!!!!!!!!!!!!!!!!!!
+// all(x => x.room(0.9)
+//    .color('cyan')
+//    .lpf(800)
+//    .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
+// )
+
+
+     //  .  o ..
+     //  o . o o.o
+     //       ...oo
+     //   _________
+     //  /         \
+     // |  0   0    |
+     // |     >      |
+     //  \   ---   /
+     //   ---------
+
+
+
+
+
+
+
+
+// setcps(60/60)  // slow tempo
+
+// // ----------------------
+// // Lead synth (pronounced, melodic)
+// lead: note("<d d d a a# d3 f4>*15".sub(12))
+//   .gain("<0 0.7 1 0.9 0>!32")       // fades in/out dynamically
+//   .s("supersaw")                     // thick, warm timbre
+//   .fanchor(0)
+//   .lpf(mousex.range(600,1200))       // keeps it warm
+//   .lpenv(mousey.range(0,8))
+//   .ftype('ladder')
+//   .lpq(6)
+//   .color('cyan')
+//   .distort("0.1:0.05")               // minimal grit
+//   .room(3.5)
+//   .adsr([0.8,0.2,1.8,1])             // sustain for presence
+//   ._scope()
+
+// // ----------------------
+// // Pads (wash out into background)
+// pads: "<[d3 f3 a3 d4]>".layer(
+//   x => x.add(0)
+//         .s("triangle")              // soft, ambient pad
+//         .gain("<0 0.5 0.6 0.45 0.5>!64")
+//         .lpf(500)                   // low-pass for smoothness
+//         .adsr([2,0.5,4,2])          // very long sustain/release
+//         .room(5),
+//   x => x.add(7)
+//         .s("fm")                     // subtle harmonic movement
+//         .gain("<0 0.4 0.5 0.35 0.4>!64")
+//         .adsr([1.8,0.2,3.5,1.8])
+//         .hpf(100)
+//         .room(5)
+// )
+// .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
+
+// // ----------------------
+// // Minimal ghostly pulses (optional)
+// pulses: s("bd ~ ~ ~")
+//   .bank('RolandTR909')
+//   .gain(0.05)
+//   .room(3)
+
+// hh: s("hh ~ ~ ~")
+//   .bank('RolandTR909')
+//   .gain(sine.fast(0.2))
+//   .hpf(6000)
+//   .room(3)
+
+// // ----------------------
+// // Chord wash layer (subtle background support)
+// $: gain("[0 0.6]*2.5").chord("<Dm9 Gm9>")
+//   .voicing()
+//   .s("sine")
+//   .fm(1)
+//   .room(4)
+//   .dec(0.2)
+//   .lastOf(4, x=>x
+//     .gain("[0.2 0.6]*5")
+//     .add(note("<d3 f3 a3>*2"))
+//     .struct("x*20")
+//     .dec(0.2)
+//   )
+
+// // ----------------------
+// // Global dungeon synth feel
+// all(x=>x
+//   .color('cyan')
+//   .room(4)
+//   .lpf(800)
+//   .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
+// )
