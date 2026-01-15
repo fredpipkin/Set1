@@ -1,4 +1,10 @@
-   //          ,      ,
+// 
+// __________      ___.    __   .__         ______________ ___             ________      ___.   .__  .__        
+// \______   \ ____\_ |__ |  | _|__| ____   \__    ___/   |   \   ____    /  _____/  ____\_ |__ |  | |__| ____  
+//  |    |  _//  _ \| __ \|  |/ /  |/    \    |    | /    ~    \_/ __ \  /   \  ___ /  _ \| __ \|  | |  |/    \ 
+//  |    |   (  <_> ) \_\ \    <|  |   |  \   |    | \    Y    /\  ___/  \    \_\  (  <_> ) \_\ \  |_|  |   |  \
+//  |______  /\____/|___  /__|_ \__|___|  /   |____|  \___|_  /  \___  >  \______  /\____/|___  /____/__|___|  /
+//         \/           \/     \/       \/                  \/       \/          \/           \/             \/ 
    //         /(.-""-.)\
    //     |\  \/      \/  /|
    //     | \ / =.  .= \ / |
@@ -23,6 +29,7 @@
    //            /_/      \_\
    //           /_/        \_\
    //          /_/          \_\
+
 
 
 // setcps(79/60)
@@ -175,6 +182,7 @@
 //    .pan("<-.4 .4>/8")
 //    .room(5)
 //    ._pitchwheel()
+   
 // )
 
 // // // ======================
@@ -196,7 +204,17 @@
 //   .delay(.45)
 //   .gain(.8)
 //   .velocity(y[1])
-//    .color('red')._scope()
+//    .color('red')._scope().color(x => {
+//   // cycle through red, orange, yellow
+//   const colors = ['red', 'orange', 'yellow'];
+//   return colors[Math.floor(Date.now() / 300) % colors.length];
+// })
+// .pianoroll({
+//   height: 80,
+//   pitchRange: [36, 60],
+//   opacity: x => 0.4 + 0.3 * Math.sin(Date.now() / 500) // pulse opacity
+// })
+
 // )
 // .superimpose(x =>
 //   x.late(6)
@@ -232,13 +250,17 @@
 // .lpf(300)
 // .gain(1)
 // .room(2)
-
+// .color('green')
+// .pianoroll()
 // $:
 // s("<~ rim@24 ~>")
 // .bank("RolandMT32")
 // .lpf(1200)
 // .gain(.08)
 // .room(3)
+
+
+
 
 
 
@@ -349,6 +371,7 @@
 //   .gain(0.05)
 //   .adsr([0.1,0.3,0.05,0.5])
 //   .room(3)
+//   .pads.color("<#00bfff #800080 #FFD700>!16")
 //   .pianoroll({height:140,pitchRange:[72,84],opacity:0.3})
 
 // // ----------------------
@@ -382,11 +405,11 @@
 
 
 
-// //Cover of Mouth Breather by The Jesus Lizard
+//Cover of Mouth Breather by The Jesus Lizard
 
-// // ======================
-// // Dungeon Synth - Original Pattern
-// // ======================
+// ======================
+// Dungeon Synth - Original Pattern
+// ======================
 
 // setcps(30/60) // slow dungeon synth tempo
 
@@ -425,8 +448,7 @@
 // melody: "<[0 2 5 0 3 -1 2 3]>".s('sine')
 //   .gain(0.4)
 //   .adsr([0.1,0.2,0.2,0.5])
-//   .room(1.5)
-//   pads.color("<#00bfff #800080 #FFD700>!16")
+//   .room(1.5).pads.color("<#00bfff #800080 #FFD700>!16")
 //   .pianoroll({height:100,pitchRange:[48,72],opacity:0.7})
 
 // // ----------------------
@@ -528,7 +550,7 @@
 // // ----------------------
 // // Minimal ambient pulses (optional)
 // pulses: s("[bd ~ ~]")
-//   .gain(0.3)
+//   .gain(0.1)
 //   .room(2)
 
 // hh: s("rd ~")
@@ -536,8 +558,8 @@
 //   .hpf(6000)
 //   .room(2)
 
-// // ----------------------
-// // Global dungeon synth feel - activate to get SLOWWWWWWW!!!!!!!!!!!!!!!!!!
+// // // ----------------------
+// // // Global dungeon synth feel - activate to get SLOWWWWWWW!!!!!!!!!!!!!!!!!!
 // all(x => x.room(0.9)
 //    .color('cyan')
 //    .lpf(800)
@@ -562,75 +584,75 @@
 
 
 
-// setcps(60/60)  // slow tempo
+setcps(60/60)  // slow tempo
 
-// // ----------------------
-// // Lead synth (pronounced, melodic)
-// lead: note("<d d d a a# d3 f4>*15".sub(12))
-//   .gain("<0 0.7 1 0.9 0>!32")       // fades in/out dynamically
-//   .s("supersaw")                     // thick, warm timbre
-//   .fanchor(0)
-//   .lpf(mousex.range(600,1200))       // keeps it warm
-//   .lpenv(mousey.range(0,8))
-//   .ftype('ladder')
-//   .lpq(6)
-//   .color('cyan')
-//   .distort("0.1:0.05")               // minimal grit
-//   .room(3.5)
-//   .adsr([0.8,0.2,1.8,1])             // sustain for presence
-//   ._scope()
+// ----------------------
+// Lead synth (pronounced, melodic)
+lead: note("<d d d a a# d3 f4>*15".sub(12))
+  .gain("<0 0.7 1 0.9 0>!32")       // fades in/out dynamically
+  .s("supersaw")                     // thick, warm timbre
+  .fanchor(0)
+  .lpf(mousex.range(600,1200))       // keeps it warm
+  .lpenv(mousey.range(0,8))
+  .ftype('ladder')
+  .lpq(6)
+  .color('cyan')
+  .distort("0.1:0.05")               // minimal grit
+  .room(3.5)
+  .adsr([0.8,0.2,1.8,1])             // sustain for presence
+  ._scope()
 
-// // ----------------------
-// // Pads (wash out into background)
-// pads: "<[d3 f3 a3 d4]>".layer(
-//   x => x.add(0)
-//         .s("triangle")              // soft, ambient pad
-//         .gain("<0 0.5 0.6 0.45 0.5>!64")
-//         .lpf(500)                   // low-pass for smoothness
-//         .adsr([2,0.5,4,2])          // very long sustain/release
-//         .room(5),
-//   x => x.add(7)
-//         .s("fm")                     // subtle harmonic movement
-//         .gain("<0 0.4 0.5 0.35 0.4>!64")
-//         .adsr([1.8,0.2,3.5,1.8])
-//         .hpf(100)
-//         .room(5)
-// )
-// .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
+// ----------------------
+// Pads (wash out into background)
+pads: "<[d3 f3 a3 d4]>".layer(
+  x => x.add(0)
+        .s("triangle")              // soft, ambient pad
+        .gain("<0 0.5 0.6 0.45 0.5>!64")
+        .lpf(500)                   // low-pass for smoothness
+        .adsr([2,0.5,4,2])          // very long sustain/release
+        .room(5),
+  x => x.add(7)
+        .s("fm")                     // subtle harmonic movement
+        .gain("<0 0.4 0.5 0.35 0.4>!12")
+        .adsr([1.8,0.2,3.5,1.8])
+        .hpf(100)
+        .room(5)
+)
+.pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
 
-// // ----------------------
-// // Minimal ghostly pulses (optional)
-// pulses: s("bd ~ ~ ~")
-//   .bank('RolandTR909')
-//   .gain(0.05)
-//   .room(3)
+// ----------------------
+// Minimal ghostly pulses (optional)
+pulses: s("bd ~ ~ ~")
+  .bank('RolandTR909')
+  .gain(0.05)
+  .room(3)
 
-// hh: s("hh ~ ~ ~")
-//   .bank('RolandTR909')
-//   .gain(sine.fast(0.2))
-//   .hpf(6000)
-//   .room(3)
+hh: s("hh ~ ~ ~")
+  .bank('RolandTR909')
+  .gain(sine.fast(0.2))
+  .hpf(6000)
+  .room(3)
 
-// // ----------------------
-// // Chord wash layer (subtle background support)
-// $: gain("[0 0.6]*2.5").chord("<Dm9 Gm9>")
-//   .voicing()
-//   .s("sine")
-//   .fm(1)
-//   .room(4)
-//   .dec(0.2)
-//   .lastOf(4, x=>x
-//     .gain("[0.2 0.6]*5")
-//     .add(note("<d3 f3 a3>*2"))
-//     .struct("x*20")
-//     .dec(0.2)
-//   )
+// ----------------------
+// Chord wash layer (subtle background support)
+$: gain("[0 0.6]*2.5").chord("<Dm9 Gm9>")
+  .voicing()
+  .s("sine")
+  .fm(1)
+  .room(4)
+  .dec(0.2)
+  .lastOf(4, x=>x
+    .gain("[0.2 0.6]*5")
+    .add(note("<d3 f3 a3>*2"))
+    .struct("x*20")
+    .dec(0.2)
+  )
 
-// // ----------------------
-// // Global dungeon synth feel
-// all(x=>x
-//   .color('cyan')
-//   .room(4)
-//   .lpf(800)
-//   .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
-// )
+// ----------------------
+// Global dungeon synth feel
+all(x=>x
+  .color('cyan')
+  .room(4)
+  .lpf(800)
+  .pianoroll({height:80,pitchRange:[36,60],opacity:0.4})
+)
